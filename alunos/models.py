@@ -1,27 +1,23 @@
 from django.db import models
 
-class Estado(models.Model):
-    nome = models.CharField(max_length=50)
-    sigla = models.CharField(max_length=2)
-
-    def __str__(self):
-        return f"{self.nome} ( {self.sigla} )"
-    
-class Cidade(models.Model):
-    nome = models.CharField(max_length=50)
-    estado = models.ForeignKey(Estado, on_delete=models.PROTECT)
-
-    def __str__(self):
-        return f"{self.nome} ({self.estado.sigla})"
-    
-class Aluno(models.Model):
+class Cliente(models.Model):
     nome = models.CharField(max_length=100)
-    data_nascimento = models.DateField()
     email = models.EmailField()
     telefone = models.CharField(max_length=15)
-    cidade = models.ForeignKey(Cidade, on_delete=models.PROTECT)
 
     def __str__(self):
-        return f"{self.nome} - {self.cidade.nome} ({self.cidade.estado.sigla})"
+        return f"{self.nome}"
     
+class Pedidos(models.Model):
+    data_pedido = models.DateField()
+    valor_total = models.DecimalField(max_digits=10, decimal_places=2)
+    
+class ItensPedido(models.Model):
+    produto = models.CharField(max_length=100)
+    quantidade = models.IntegerField()
+    preco_unitario = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.produto} - {self.quantidade}x"
+
 # Create your models here.
